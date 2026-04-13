@@ -1,0 +1,4 @@
+module GamesLib {
+header "GamesLib-Swift.h"
+export *
+}
