@@ -1,10 +1,12 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 6.2.3 effective-5.10 (swiftlang-6.2.3.3.21 clang-1700.6.3.2)
-// swift-module-flags: -target arm64-apple-ios17.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -module-name GamesLib -package-name gameslib
-// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2.3
+// swift-compiler-version: Apple Swift version 6.3.2 effective-5.10 (swiftlang-6.3.2.1.108 clang-2100.1.1.101)
+// swift-module-flags: -target arm64-apple-ios17.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -O -enable-experimental-feature DebugDescriptionMacro -module-name GamesLib -package-name gameslib
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.3.2
 import Alamofire
+import AppTrackingTransparency
 import Auth0
 import Combine
+import ConsentViewController
 import DeveloperToolsSupport
 import Foundation
 import Foundation/*.Bundle*/
@@ -14,58 +16,209 @@ import Kingfisher
 import Swift
 import SwiftUI
 import SwiftyJSON
+import TealiumAttribution
+import TealiumCollect
+import TealiumCore
+import TealiumLifecycle
+import TealiumTagManagement
 import UIKit
+import WebKit
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
+import _WebKit_SwiftUI
 @_Concurrency.MainActor @preconcurrency public struct GHBannerView : SwiftUI.UIViewRepresentable {
   @_Concurrency.MainActor @preconcurrency public func makeUIView(context: GamesLib.GHBannerView.Context) -> UIKit.UIView
   @_Concurrency.MainActor @preconcurrency public func updateUIView(_ uiView: UIKit.UIView, context: GamesLib.GHBannerView.Context)
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency public init(_ adSize: GamesLib.AdSize = AdSizeBanner, viewController: UIKit.UIViewController? = nil, bannerId: Swift.String? = nil, data: [Swift.String : Any]? = nil, targetingPrefix: Swift.String = "targeting_", onLoaded: (((any Swift.Error)?, Swift.String) -> Swift.Void)? = nil)
-  #endif
   public typealias Body = Swift.Never
   public typealias Coordinator = Swift.Void
   public typealias UIViewType = UIKit.UIView
 }
 extension GamesLib.AdSize {
-  #if compiler(>=5.3) && $NonescapableTypes
-  public static func ghBannerSize(width: Swift.String?, height: Swift.String?) -> GamesLib.AdSize
-  #endif
-  public static func ghBannerSize(width w: Swift.Int, height h: Swift.Int) -> GamesLib.AdSize
+  public static func ghBannerSize(width: Swift.Int?, height: Swift.Int?) -> GamesLib.AdSize
+  public static func ghBannerSizeI(width w: Swift.Int, height h: Swift.Int) -> GamesLib.AdSize
 }
 @_Concurrency.MainActor @preconcurrency public struct GHAdBannerWithFallBack : SwiftUICore.View {
   @_Concurrency.MainActor @preconcurrency public var body: some SwiftUICore.View {
     get
   }
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency public init(_ adSize: GamesLib.AdSize = AdSizeBanner, viewController: UIKit.UIViewController? = nil, bannerId: Swift.String? = nil, data: [Swift.String : Any]? = nil, targetingPrefix: Swift.String = "targeting_", fallbackImage: Swift.String? = nil, fallbackUrl: Swift.String? = nil, onLoaded: (((any Swift.Error)?, Swift.String) -> Swift.Void)? = nil)
-  #endif
   public typealias Body = @_opaqueReturnTypeOf("$s8GamesLib22GHAdBannerWithFallBackV4bodyQrvp", 0) __
 }
 public struct AdSize {
 }
 public let AdSizeBanner: GamesLib.AdSize
+@_Concurrency.MainActor @preconcurrency public struct HTMLWebView : SwiftUI.UIViewRepresentable {
+  @_Concurrency.MainActor @preconcurrency public let html: Swift.String
+  @_Concurrency.MainActor @preconcurrency public let baseURL: Foundation.URL?
+  @_Concurrency.MainActor @preconcurrency public let callbackName: Swift.String
+  @_Concurrency.MainActor @preconcurrency public let onEvent: ((GamesLib.AdScriptEvent) -> Swift.Void)?
+  @_Concurrency.MainActor @preconcurrency public init(html: Swift.String, baseURL: Foundation.URL? = nil, callbackName: Swift.String, onEvent: ((GamesLib.AdScriptEvent) -> Swift.Void)? = nil)
+  @_Concurrency.MainActor @preconcurrency public func makeCoordinator() -> GamesLib.HTMLWebView.Coordinator
+  @_Concurrency.MainActor @preconcurrency public func makeUIView(context: GamesLib.HTMLWebView.Context) -> WebKit.WKWebView
+  @_Concurrency.MainActor @preconcurrency public func updateUIView(_ webView: WebKit.WKWebView, context: GamesLib.HTMLWebView.Context)
+  @objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor @preconcurrency final public class Coordinator : ObjectiveC.NSObject, WebKit.WKScriptMessageHandler {
+    @_Concurrency.MainActor @preconcurrency @objc final public func userContentController(_ userContentController: WebKit.WKUserContentController, didReceive message: WebKit.WKScriptMessage)
+    @objc deinit
+  }
+  public typealias Body = Swift.Never
+  public typealias UIViewType = WebKit.WKWebView
+}
+@_Concurrency.MainActor final public class AdContainerViewModel : Foundation.ObservableObject {
+  @Combine.Published<CoreFoundation.CGFloat> @_projectedValueProperty($advertHeight) @_Concurrency.MainActor final public var advertHeight: CoreFoundation.CGFloat {
+    get
+  }
+  @_Concurrency.MainActor final public var $advertHeight: Combine.Published<CoreFoundation.CGFloat>.Publisher {
+    get
+  }
+  @Combine.Published<GamesLib.AdScriptEvent?> @_projectedValueProperty($latestEvent) @_Concurrency.MainActor final public var latestEvent: GamesLib.AdScriptEvent? {
+    get
+  }
+  @_Concurrency.MainActor final public var $latestEvent: Combine.Published<GamesLib.AdScriptEvent?>.Publisher {
+    get
+  }
+  @Combine.Published<Swift.Bool> @_projectedValueProperty($isCollapsed) @_Concurrency.MainActor final public var isCollapsed: Swift.Bool {
+    get
+  }
+  @_Concurrency.MainActor final public var $isCollapsed: Combine.Published<Swift.Bool>.Publisher {
+    get
+  }
+  @_Concurrency.MainActor public init()
+  @_Concurrency.MainActor final public func handleScriptMessage(_ body: Any)
+  @_Concurrency.MainActor final public func handleEvent(_ event: GamesLib.AdScriptEvent)
+  public typealias ObjectWillChangePublisher = Combine.ObservableObjectPublisher
+  @objc deinit
+}
+public class AdManager {
+  public static var `default`: GamesLib.AdManager!
+  public init(configuration: GamesLib.AdLibraryConfiguration, userConfiguration: GamesLib.UserConfiguration, sourcePointConfiguration: GamesLib.SourcePointConfiguration)
+  public func update(userConfiguration: GamesLib.UserConfiguration)
+  public func refreshUserConfig()
+  public var baseURL: Foundation.URL? {
+    get
+  }
+  public func configureHTML(slotConfiguration: GamesLib.SlotConfiguration, utagConfiguration: GamesLib.UtagConfiguration?) -> Swift.String
+  @objc deinit
+}
+public enum AdScriptEventType : Swift.String {
+  case slotRenderEnded
+  case slotRequested
+  case slotOnload
+  case slotOnLoad
+  case impressionViewable
+  case advertLevelConsentMessageReady
+  case advertLevelConsentReady
+  case advertLevelConsentError
+  case error
+  case unknown
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct AdScriptEvent {
+  public let type: GamesLib.AdScriptEventType
+  public let rawPayload: [Swift.String : Any]
+  public init(type: GamesLib.AdScriptEventType, rawPayload: [Swift.String : Any])
+}
+public enum AdScriptMessageParser {
+  public static func parse(_ body: Any) -> GamesLib.AdScriptEvent?
+}
+@_hasMissingDesignatedInitializers public class AdsConsentManager {
+  public static var consent: ConsentViewController.SPUserData? {
+    get
+  }
+  public static func saveConsent(_ consent: ConsentViewController.SPUserData)
+  @objc deinit
+}
+public struct AdLibraryConfiguration {
+  public let baseUrl: Swift.String
+  public let appVersion: Swift.String
+  public let tealiumId: Swift.String
+  public let isTablet: Swift.Bool
+  public let prebidScriptUrl: Swift.String
+  public let adScriptUrl: Swift.String
+  public init(baseUrl: Swift.String, appVersion: Swift.String, tealiumId: Swift.String, isTablet: Swift.Bool, prebidScriptUrl: Swift.String, adScriptUrl: Swift.String)
+}
+public struct UserConfiguration {
+  public let isLoggedIn: Swift.Bool
+  public let registrationType: Swift.String?
+  public let cpn: Swift.String?
+  public init(isLoggedIn: Swift.Bool, registrationType: Swift.String? = nil, cpn: Swift.String? = nil)
+}
+public struct SourcePointConfiguration {
+  public let accountId: Swift.String
+  public let baseUrl: Swift.String
+  public let propertyName: Swift.String
+  public let sourcePointPropertyId: Swift.String
+  public let authId: Swift.String
+  public init(accountId: Swift.String, baseUrl: Swift.String, propertyName: Swift.String, sourcePointPropertyId: Swift.String, authId: Swift.String)
+}
+public struct SlotConfiguration {
+  public let pageViewId: Foundation.UUID
+  public let covaticId: Swift.String?
+  public let sectionTitle: Swift.String
+  public let isSection: Swift.Bool
+  public let isLive: Swift.Bool
+  public let path: Swift.String
+  public let requiresExtraTracking: Swift.Bool
+  public let sharedAdConsentEnabled: Swift.Bool?
+  public let fullSlotName: Swift.String
+  public let slotName: GamesLib.SlotName
+  public let backgroundColor: Swift.String
+  public let darkmodeBackgroundColor: Swift.String
+  public let isSponsoredSlot: Swift.Bool?
+  public let enableGoogleAdDebugger: Swift.Bool
+  public var callbackName: Swift.String {
+    get
+  }
+  public init(pageViewId: Foundation.UUID = UUID(), covaticId: Swift.String? = nil, sectionTitle: Swift.String = "", isSection: Swift.Bool = true, isLive: Swift.Bool = true, path: Swift.String = "", requiresExtraTracking: Swift.Bool = false, sharedAdConsentEnabled: Swift.Bool? = nil, fullSlotName: Swift.String, slotName: GamesLib.SlotName, backgroundColor: Swift.String = "transparent", darkmodeBackgroundColor: Swift.String = "transparent", isSponsoredSlot: Swift.Bool? = nil, enableGoogleAdDebugger: Swift.Bool = false)
+}
+public enum SlotName : Swift.String, Swift.Sendable {
+  case article
+  case section
+  case sponsor
+  case unknown
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct UtagConfiguration {
+  public let articleId: Foundation.UUID
+  public let articleName: Swift.String
+  public let articleShortHeadline: Swift.String
+  public let articleAuthors: [Swift.String]
+  public let pageTags: [Swift.String]
+  public let articleUpdatedTime: Foundation.Date?
+  public let articlePublishTime: Foundation.Date?
+  public init(articleId: Foundation.UUID, articleName: Swift.String, articleShortHeadline: Swift.String, articleAuthors: [Swift.String], pageTags: [Swift.String], articleUpdatedTime: Foundation.Date? = nil, articlePublishTime: Foundation.Date? = nil)
+}
+@_Concurrency.MainActor @preconcurrency public struct WebAdBanner : SwiftUICore.View {
+  @_Concurrency.MainActor @preconcurrency public var body: some SwiftUICore.View {
+    get
+  }
+  @_Concurrency.MainActor @preconcurrency public init(slot: Swift.String, utagConfiguration: GamesLib.UtagConfiguration? = nil, adManager: GamesLib.AdManager = AdManager.default)
+  @_Concurrency.MainActor @preconcurrency public init(adManager: GamesLib.AdManager = AdManager.default, slotConfiguration: GamesLib.SlotConfiguration, utagConfiguration: GamesLib.UtagConfiguration? = nil)
+  public typealias Body = @_opaqueReturnTypeOf("$s8GamesLib11WebAdBannerV4bodyQrvp", 0) __
+}
 @_Concurrency.MainActor public class GHIDPManager {
   @_Concurrency.MainActor public static let auth0: GamesLib.GHIDPManager
   @_Concurrency.MainActor public init(authentication type: GamesLib.GHIDPAuthenticator = .auth0, authenticator: any GamesLib.GHAuthenticatorProtocol)
   @_Concurrency.MainActor public func login() async throws
   @_Concurrency.MainActor public func logout() async throws
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func login(completion: (((any Swift.Error)?) -> Swift.Void)? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor public func logout(completion: (((any Swift.Error)?) -> Swift.Void)? = nil)
-  #endif
   @objc deinit
 }
 public enum GHIDPAuthenticator : Swift.String {
   case auth0
   case disney
   case ping
-  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.String)
-  #endif
   public typealias RawValue = Swift.String
   public var rawValue: Swift.String {
     get
@@ -74,9 +227,7 @@ public enum GHIDPAuthenticator : Swift.String {
 extension GamesLib.GHIDPManager : nonisolated Observation.Observable {
 }
 public protocol GHAuthenticatorProtocol {
-  #if compiler(>=5.3) && $NonescapableTypes
   var user: GamesLib.GHAuthenticatedUser? { get }
-  #endif
   func authenticate() async throws -> any GamesLib.GHAuthenticatedUserProtocol
   func logout() async throws
   func isAuthenticated() async -> Swift.Bool
@@ -104,24 +255,18 @@ extension SwiftUICore.View {
   
 }
 extension GamesLib.GamingHubCards {
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func registerFonts(forCompetition id: Swift.Int, weight: UIKit.UIFont.Weight? = nil)
-  #endif
   public static func font(competition: Swift.Int, size: CoreFoundation.CGFloat, weight: UIKit.UIFont.Weight = .regular) -> UIKit.UIFont
   public static func font(competition: GamesLib.GamingHubCompetitions, size: CoreFoundation.CGFloat, weight: UIKit.UIFont.Weight = .regular) -> UIKit.UIFont
 }
 public class GHProfileEditManager : GamesLib.GHProfileEditProtocol {
   public static let shared: GamesLib.GHProfileEditManager
   public init()
-  #if compiler(>=5.3) && $NonescapableTypes
   public func setUsername(_ username: Swift.String, completion: @escaping ((any Swift.Error)?) -> Swift.Void)
-  #endif
   @objc deinit
 }
 public protocol GHProfileEditProtocol : AnyObject {
-  #if compiler(>=5.3) && $NonescapableTypes
   func setUsername(_ username: Swift.String, completion: @escaping ((any Swift.Error)?) -> Swift.Void)
-  #endif
 }
 public var CurrentGame: Swift.String
 @objc @_inheritsConvenienceInitializers @_Concurrency.MainActor @preconcurrency open class GHPOCViewController : UIKit.UIViewController {
@@ -129,24 +274,16 @@ public var CurrentGame: Swift.String
     get
   }
   @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewDidLoad()
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency open func setup(gameId: Swift.String, data: [Swift.String : Any]? = nil)
-  #endif
   @objc @_Concurrency.MainActor @preconcurrency open func onLoginLoginRequest(notification: Foundation.Notification)
   @objc @_Concurrency.MainActor @preconcurrency open func onOpenGame(notification: Foundation.Notification)
   @objc @_Concurrency.MainActor @preconcurrency open func openMenu(notification: Foundation.Notification)
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
-  #endif
   @objc deinit
 }
 extension GamesLib.GamingHubCards {
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func setupPOC(competition: Swift.Int = 1, environment: GamesLib.GamingHubEnvironment = .integration, clientId: Swift.String = "GH_APP_IOS", config: [Swift.String : Any]? = nil)
-  #endif
 }
 @_Concurrency.MainActor @preconcurrency public struct GHPOCSwiftUIHomeFeed : SwiftUICore.View {
   @_Concurrency.MainActor @preconcurrency public var body: some SwiftUICore.View {
@@ -160,66 +297,72 @@ extension GamesLib.GamingHubCards {
   @_Concurrency.MainActor @preconcurrency public var body: some SwiftUICore.View {
     get
   }
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency public init(competitions: [Swift.Int]? = nil, integratedGames: [Swift.String] = [], list: Swift.String = "ucl-unknown", brand: Swift.String = "ucl", roundId: Swift.String = "0")
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency public static func viewController(competition: Swift.Int? = nil, integratedGames: [Swift.String] = [], list: Swift.String = "ucl-unknown", brand: Swift.String = "ucl", roundId: Swift.String = "0") -> UIKit.UIViewController
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency public static func viewController(competitions: [Swift.Int]? = nil, integratedGames: [Swift.String] = [], list: Swift.String = "ucl-unknown", brand: Swift.String = "ucl", roundId: Swift.String = "0") -> UIKit.UIViewController
-  #endif
   public typealias Body = @_opaqueReturnTypeOf("$s8GamesLib18GamingRailCardViewV4bodyQrvp", 0) __
 }
 @_hasMissingDesignatedInitializers public class GHAppsFlyerTracker {
   public static func initilizeUserProperties()
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func trackScreen(name: Swift.String, parameters: [Swift.String : Any]? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func trackEvent(name: Swift.String, parameters: [Swift.String : Any]? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func trackMappedAnalyticsEvent(name: Swift.String, parameters: [Swift.String : Any]? = nil)
-  #endif
   @objc deinit
+}
+public protocol ConsentManagerProtocol {
+  func start() async
+  func showPreferenceCentre(in viewController: UIKit.UIViewController, onConsentCompleted: (() -> Swift.Void)?)
+  func showATTWithConsentCenter(in viewController: UIKit.UIViewController, onConsentCompleted: (((any Swift.Error)?) -> Swift.Void)?)
+  func checkAndOpen(in viewController: UIKit.UIViewController, onConsentCompleted: (() -> Swift.Void)?)
+}
+@objc @_inheritsConvenienceInitializers final public class SourcePointCM : ObjectiveC.NSObject, GamesLib.ConsentManagerProtocol {
+  public enum Constants {
+    public static let accountIDKey: Swift.String
+    public static let propertyIDKey: Swift.String
+    public static let propertyNameKey: Swift.String
+    public static let privacyManagerIDKey: Swift.String
+    public static let propertyHrefKey: Swift.String
+    public static let propertyIDWebKey: Swift.String
+    public static let errorDomain: Swift.String
+  }
+  final public func start() async
+  final public func showPreferenceCentre(in viewController: UIKit.UIViewController, onConsentCompleted: (() -> Swift.Void)?)
+  final public func showATTWithConsentCenter(in viewController: UIKit.UIViewController, onConsentCompleted: (((any Swift.Error)?) -> Swift.Void)?)
+  final public func checkAndOpen(in viewController: UIKit.UIViewController, onConsentCompleted: (() -> Swift.Void)?)
+  final public func startPOC()
+  @objc override dynamic public init()
+  @objc deinit
+}
+extension GamesLib.SourcePointCM : ConsentViewController.SPDelegate {
+  @objc final public func onSPUIReady(_ controller: UIKit.UIViewController)
+  @objc final public func onAction(_ action: ConsentViewController.SPAction, from controller: UIKit.UIViewController)
+  @objc final public func onSPUIFinished(_ controller: UIKit.UIViewController)
+  @objc final public func onSPNativeMessageReady(_ message: ConsentViewController.SPNativeMessage)
+  @objc final public func onConsentReady(userData: ConsentViewController.SPUserData)
+  @objc final public func onSPFinished(userData: ConsentViewController.SPUserData)
+  @objc final public func onMessageInactivityTimeout()
+  @objc final public func onError(error: ConsentViewController.SPError)
 }
 @_hasMissingDesignatedInitializers public class G4FirebaseTracker {
   public static var inspector: (any GamesLib.AnalyticsInspectorProtocol)?
   public static func flushImpressions()
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func trackScreen(name: Swift.String, parameters: [Swift.String : Any]? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func trackEvent(name: Swift.String, parameters: [Swift.String : Any]? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
-  #endif
   public static func trackClick(action: Swift.String, screen: Swift.String = "", name: Swift.String = GH_ACTION_TRACK_EVENT, category: Swift.String = "Click", label: Swift.String = "gaminghub")
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func trackProductImpression(id: Swift.String, name: Swift.String, category: Swift.String, variant: Swift.String?, list: Swift.String, brand: Swift.String, index: Swift.Int, category2: Swift.String? = nil, category3: Swift.String? = nil, category4: Swift.String? = nil, category5: Swift.String? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func trackProductClick(id: Swift.String, name: Swift.String, category: Swift.String, variant: Swift.String?, list: Swift.String, brand: Swift.String, index: Swift.Int, category2: Swift.String? = nil, category3: Swift.String? = nil, category4: Swift.String? = nil, category5: Swift.String? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
-  #endif
   public static func track(page: Swift.String, subType: Swift.String, type: Swift.String, section3: Swift.String, section2: Swift.String = "gaminghub", section1: Swift.String = "gaminghub")
   public static func initilizeUserProperties()
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func setUserProperty(_ value: Swift.String?, forName key: Swift.String)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func updatePushNotificationsUserProperty(value: Swift.String? = nil)
-  #endif
   public static func setDefaultParameters()
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func trackSponsor(name: Swift.String, creativeName: Swift.String? = nil, slot: Swift.String? = nil, id: Swift.String? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func trackSponsorClick(name: Swift.String, creativeName: Swift.String? = nil, slot: Swift.String? = nil, id: Swift.String? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
-  #endif
   @objc deinit
 }
 public class GHImpressionVisibility : Combine.ObservableObject {
   public static var defaultDelay: Swift.Double
-  @Combine.Published @_projectedValueProperty($isVisible) public var isVisible: Swift.Bool {
+  @Combine.Published<Swift.Bool> @_projectedValueProperty($isVisible) public var isVisible: Swift.Bool {
     get
     @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
     set
@@ -231,9 +374,7 @@ public class GHImpressionVisibility : Combine.ObservableObject {
     @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
     set
   }
-  #if compiler(>=5.3) && $NonescapableTypes
   public init(delay: Swift.Double = GHImpressionVisibility.defaultDelay, singleTime: Swift.Bool = true, action: (() -> Swift.Void)? = nil)
-  #endif
   public func setVisibility(_ visible: Swift.Bool)
   public func restart()
   public func cancel()
@@ -251,10 +392,8 @@ public class GHImpressionVisibility : Combine.ObservableObject {
   public typealias Body = @_opaqueReturnTypeOf("$s8GamesLib26GHViewImpressionVisibilityV4body7contentQr7SwiftUI21_ViewModifier_ContentVyACG_tF", 0) __
 }
 extension SwiftUICore.View {
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency public func ghOnImpression(_ debugInfo: Swift.String = "", singleTime: Swift.Bool = false, action: (() -> Swift.Void)? = nil) -> some SwiftUICore.View
   
-  #endif
 }
 public struct TrackingParameters : Swift.Codable {
   public var competition: Swift.String?
@@ -278,40 +417,22 @@ public struct TrackingParameters : Swift.Codable {
   public var teamId: Swift.String?
   public var playerId: Swift.String?
   public var mixedCompetitions: Swift.String?
-  #if compiler(>=5.3) && $NonescapableTypes
   public init(competition: Swift.String? = nil, competitionDate: Swift.String? = nil, contentSection1: Swift.String? = nil, contentSection2: Swift.String? = nil, contentSection3: Swift.String? = nil, pageType: Swift.String? = nil, pageSubType: Swift.String? = nil, pageLanguage: Swift.String? = nil, pageName: Swift.String? = nil, partners: Swift.String? = nil, articleChildId: Swift.String? = nil, articleChildTitle: Swift.String? = nil, articleMasterId: Swift.String? = nil, articleType: Swift.String? = nil, publicationDate: Swift.String? = nil, matchId: Swift.String? = nil, matchName: Swift.String? = nil, matchStatus: Swift.String? = nil, teamId: Swift.String? = nil, playerId: Swift.String? = nil, mixedCompetitions: Swift.String? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public init(_ dictionary: [Swift.String : Any?]?)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func from(_ dictionary: Any) -> GamesLib.TrackingParameters?
-  #endif
   public static var empty: GamesLib.TrackingParameters {
     get
   }
-  #if compiler(>=5.3) && $NonescapableTypes
   public func dictionary(skipNilValues: Swift.Bool = true) -> [Swift.String : Any?]?
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @discardableResult
   public mutating func update(with parameters: [Swift.String : Any?]?) -> GamesLib.TrackingParameters
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @discardableResult
   public mutating func update(with parameters: GamesLib.TrackingParameters?) -> GamesLib.TrackingParameters
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @discardableResult
   public func updated(with parameters: GamesLib.TrackingParameters?) -> GamesLib.TrackingParameters
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @discardableResult
   public func updated(with parameters: [Swift.String : Any?]?) -> GamesLib.TrackingParameters
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func applied(on parameters: [Swift.String : Any]?) -> [Swift.String : Any]?
-  #endif
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
 }
@@ -332,154 +453,96 @@ extension GamesLib.TrackingParameters : Swift.Equatable {
   @_Concurrency.MainActor @preconcurrency public var body: some SwiftUICore.View {
     get
   }
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency public init(url: Swift.String? = nil, competitionId: Swift.Int = 1)
-  #endif
   public typealias Body = @_opaqueReturnTypeOf("$s8GamesLib33GamingEditorialArticlesListScreenV4bodyQrvp", 0) __
 }
 extension GamesLib.GamingEditorialArticlesListScreen {
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency public static func controller(url: Swift.String? = nil, competition: GamesLib.GamingHubCompetitions = .main) -> UIKit.UIViewController?
-  #endif
 }
 @_Concurrency.MainActor @preconcurrency public struct GamingEditorialCarousel : SwiftUICore.View {
   @_Concurrency.MainActor @preconcurrency public var body: some SwiftUICore.View {
     get
   }
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency public init(url: Swift.String? = nil, horizontal: Swift.Bool = true, competition: GamesLib.GamingHubCompetitions = .main)
-  #endif
   public typealias Body = @_opaqueReturnTypeOf("$s8GamesLib23GamingEditorialCarouselV4bodyQrvp", 0) __
 }
 extension GamesLib.GamingEditorialCarousel {
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency public static func controller(url: Swift.String? = nil, horizontal: Swift.Bool = true, competition: GamesLib.GamingHubCompetitions = .main) -> UIKit.UIViewController?
-  #endif
 }
 @_Concurrency.MainActor @preconcurrency public struct GamingEditorialCarouselView : SwiftUICore.View {
   @_Concurrency.MainActor @preconcurrency public var body: some SwiftUICore.View {
     get
   }
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency public init(url: Swift.String? = nil, horizontal: Swift.Bool = true, competition: GamesLib.GamingHubCompetitions = .main)
-  #endif
   public typealias Body = @_opaqueReturnTypeOf("$s8GamesLib27GamingEditorialCarouselViewV4bodyQrvp", 0) __
 }
 @objc public protocol GameCard {
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc static func viewController(data: [Swift.String : Any]?) -> UIKit.UIViewController?
-  #endif
 }
 @objc public protocol CompetitionGameCard : GamesLib.GameCard {
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc static func viewController(data: [Swift.String : Any], gameId: Swift.String, competition: Swift.Int) -> UIKit.UIViewController?
-  #endif
 }
 public protocol CompetitionGameCardView {
   associatedtype GameScreen : SwiftUICore.View
-  #if compiler(>=5.3) && $NonescapableTypes
   static func gameSwiftUI(data: [Swift.String : Any]?, gameId: Swift.String?, competition: Swift.Int?) -> Self.GameScreen
-  #endif
 }
 extension Foundation.Bundle {
   public class func ghBundle(for component: Swift.AnyClass, name: Swift.String) -> Foundation.Bundle
 }
 public class GHRemoteLocalisation : GamesLib.GHRemoteSettings {
   public init(key: Swift.String, version: Swift.String, apiManager: GamesLib.APIManager = .sharedInstance, bundle: Foundation.Bundle = .main, timeout: Swift.Double = 3600, refreshOnDidBecomeActive: Swift.Bool = true)
-  #if compiler(>=5.3) && $NonescapableTypes
   override public subscript(index: Swift.String) -> Any? {
     get
   }
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   override public subscript<T>(index: Swift.String) -> T? {
     get
   }
-  #endif
   @objc override public func refresh()
   @objc deinit
 }
 public class GHRemoteSettings {
   public var hookEnable: () -> Swift.Bool
   public var hookAfterProcess: (() -> Swift.Void)?
-  #if compiler(>=5.3) && $NonescapableTypes
   public init(key: Swift.String, version: Swift.String, apiManager: GamesLib.APIManager = .sharedInstance, defaultsString: Swift.String? = nil, prefix: Swift.String = "data.0.parameters.", bundle: Foundation.Bundle = .main, timeout: Swift.Double = 30 * 5, refreshOnDidBecomeActive: Swift.Bool = true)
-  #endif
   @objc public func refresh()
-  #if compiler(>=5.3) && $NonescapableTypes
   public subscript(index: Swift.Int) -> Any? {
     get
   }
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public subscript(index: Swift.String) -> Any? {
     get
   }
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public subscript<T>(index: Swift.Int) -> T? {
     get
   }
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public subscript<T>(index: Swift.String) -> T? {
     get
   }
-  #endif
   @objc deinit
 }
 public struct JSONAS {
-  #if compiler(>=5.3) && $NonescapableTypes
   public init?(data: Foundation.Data, key: Swift.String? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public init?(string: Swift.String, key: Swift.String? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public init?(file: Swift.String, key: Swift.String? = nil, bundle: Foundation.Bundle = .main)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func value(_ path: Swift.String) -> Any?
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func value<T>(_ path: Swift.String) -> T?
-  #endif
   public func value<T>(_ path: Swift.String, _ defaultValue: T) -> T
-  #if compiler(>=5.3) && $NonescapableTypes
   public subscript(index: Swift.Int) -> Any? {
     get
   }
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public subscript(index: Swift.String) -> Any? {
     get
   }
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public subscript<T>(index: Swift.Int) -> T? {
     get
   }
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public subscript<T>(index: Swift.String) -> T? {
     get
   }
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func int(_ path: Swift.String) -> Swift.Int?
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func string(_ path: Swift.String) -> Swift.String?
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func dictionary(_ path: Swift.String) -> [Swift.String : Any]?
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public init?(key: Swift.String, defaults: Swift.String? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public mutating func save(key: Swift.String? = nil)
-  #endif
   public static var empty: GamesLib.JSONAS {
     get
   }
@@ -487,6 +550,27 @@ public struct JSONAS {
     get
   }
   public mutating func replace(with data: Foundation.Data)
+}
+@_hasMissingDesignatedInitializers public class TealiumTracker {
+  public static var inspector: (any GamesLib.AnalyticsInspectorProtocol)?
+  public static func flushImpressions()
+  public static func trackScreen(name: Swift.String, parameters: [Swift.String : Any]? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
+  public static func trackEvent(name: Swift.String, parameters: [Swift.String : Any]? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
+  public static func trackProductImpression(id: Swift.String, name: Swift.String, category: Swift.String, variant: Swift.String?, list: Swift.String, brand: Swift.String, index: Swift.Int, category2: Swift.String? = nil, category3: Swift.String? = nil, category4: Swift.String? = nil, category5: Swift.String? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
+  public static func trackProductClick(id: Swift.String, name: Swift.String, category: Swift.String, variant: Swift.String?, list: Swift.String, brand: Swift.String, index: Swift.Int, category2: Swift.String? = nil, category3: Swift.String? = nil, category4: Swift.String? = nil, category5: Swift.String? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
+  public static func initilizeUserProperties()
+  public static func setUserProperty(_ value: Swift.String?, forName key: Swift.String)
+  public static func updatePushNotificationsUserProperty(value: Swift.String? = nil)
+  public static func trackSponsor(name: Swift.String, creativeName: Swift.String? = nil, slot: Swift.String? = nil, id: Swift.String? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
+  public static func trackSponsorClick(name: Swift.String, creativeName: Swift.String? = nil, slot: Swift.String? = nil, id: Swift.String? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
+  public static func setDefaultEventParameters()
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class TealiumHelper {
+  public static func start()
+  public func printConsentStatus()
+  public static func updateConsentPreferences(_ dict: [Swift.String : Any])
+  @objc deinit
 }
 @_hasMissingDesignatedInitializers public class GameLogger {
   public static func print(_ items: Any..., domain: Swift.String)
@@ -496,39 +580,23 @@ public struct JSONAS {
 }
 extension GamesLib.GameLogger {
   public static func logExternal(_ info: Swift.String)
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func logExternal(error: any Swift.Error, logInfo: Swift.String? = nil)
-  #endif
 }
 extension GamesLib.GamingHubCards {
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func gameInfo(_ gameId: Swift.String, completion: @escaping ([Swift.String : Any]?, (any Swift.Error)?) -> Swift.Void)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func refreshAvailability(_ gameId: Swift.String, completion: @escaping (Swift.Bool, (any Swift.Error)?) -> Swift.Void)
-  #endif
 }
 extension GamesLib.GamingHubCards {
   public static var bundle: Foundation.Bundle
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func gameBundle(for gameId: Swift.String) -> Foundation.Bundle?
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func featuredCard(for gameId: Swift.String, data: [Swift.String : Any]? = nil, list: Swift.String? = nil, brand: Swift.String? = nil, index: Swift.Int? = nil) -> UIKit.UIViewController?
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func game(gameId: Swift.String, data: [Swift.String : Any]? = nil, ignoreGamingAvailability: Swift.Bool = false) -> UIKit.UIViewController?
-  #endif
 }
 extension GamesLib.GamingHubCards {
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func gameSwiftUI(gameId: Swift.String, data: [Swift.String : Any]? = nil, ignoreGamingAvailability: Swift.Bool = false) -> SwiftUICore.AnyView
-  #endif
 }
 extension GamesLib.GamingHubCards {
-  #if compiler(>=5.3) && $NonescapableTypes
   public func isDeeplink(url: Foundation.URL?, for gameId: Swift.String) -> Swift.Bool
-  #endif
 }
 public struct GamingHubCardsEnvironment {
   public let environment: GamesLib.GamingHubEnvironment
@@ -548,21 +616,11 @@ extension GamesLib.GamingHubCards {
 extension GamesLib.GamingHubCards {
   public class func registerTrackingDefaults(_ parameters: GamesLib.TrackingParameters, domain: Swift.AnyHashable, gameId: Swift.String)
   public class func updateTrackingDefaults(_ parameters: GamesLib.TrackingParameters, merge: Swift.Bool, domain: Swift.AnyHashable, gameId: Swift.String)
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func trackProviderScreen(_ provider: Swift.String, screenName: Swift.String, parameters: [Swift.String : Any]?, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func trackProviderEvent(_ provider: Swift.String?, eventName: Swift.String, parameters: [Swift.String : Any]?, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func trackProviderProductClick(_ provider: Swift.String, roundid: Swift.String, name: Swift.String, category: Swift.String, variant: Swift.String?, list: Swift.String, brand: Swift.String, index: Swift.Int, category2: Swift.String? = nil, category3: Swift.String? = nil, category4: Swift.String? = nil, category5: Swift.String? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func trackProviderProductImpression(_ provider: Swift.String, roundid: Swift.String, name: Swift.String, category: Swift.String, variant: Swift.String?, list: Swift.String, brand: Swift.String, index: Swift.Int, category2: Swift.String? = nil, category3: Swift.String? = nil, category4: Swift.String? = nil, category5: Swift.String? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func addDefaultsDomainInfoIfNeeded(parameters: inout [Swift.String : Any], domain: Swift.AnyHashable?, gameId: Swift.String?)
-  #endif
   @discardableResult
   public class func flushImpressions() -> Swift.Bool
 }
@@ -573,24 +631,21 @@ extension Foundation.NSNotification.Name {
   public static let ghTrackSponsorClick: Foundation.Notification.Name
 }
 extension GamesLib.GamingHubCards {
+  public static func notificationGameData(userInfo: [Swift.AnyHashable : Any]?) -> [Swift.String : Any]?
+}
+extension GamesLib.GamingHubCards {
   @available(*, deprecated, message: "Use GameNotificationsManager.isNotificationsGranted(completion: @escaping (UNAuthorizationStatus)->Void)")
   public class func isNotificationsGranted(completion: @escaping (GamesLib.NotificationsGrant) -> Swift.Void)
   @available(*, deprecated, message: "Use a combination of GameNotificationsManager.enableSystemNotifications(for gameId: String, completion: @escaping (Result<Bool,Error>)->Void) and GameNotificationsManager.set(newStatus: Bool, forNotificationChannel channel: GameNotificationChannel, completion: @escaping (Result<GameNotificationChannel,Error>)->Void)")
   public class func enableGameNotifications(_ gameId: Swift.String, enable: Swift.Bool)
   @available(*, deprecated, message: "Use GameNotificationsManager.enableSystemNotifications(gameId: String, completion: @escaping (Result<Bool,Error>)->Void)")
   public class func requestNotificationsPermission(completion: @escaping (GamesLib.NotificationsGrant) -> Swift.Void)
-  #if compiler(>=5.3) && $NonescapableTypes
   @available(*, deprecated, message: "Use GameNotificationsManager.channels(for gameId: String, completion: @escaping (Result<[GameNotificationChannel],Error>)->Void)")
   public class func getNotificationChannels(completion: @escaping ([Any], (any Swift.Error)?) -> Swift.Void)
-  #endif
   @available(*, deprecated, message: "Use GameNotificationsManager.set(newStatus: Bool, forNotificationChannel channel: GameNotificationChannel, completion: @escaping (Result<GameNotificationChannel,Error>)->Void)")
   public class func setNotificationChannel(_ game_id: Swift.String, notification_id: Swift.String, state: Swift.Int, completion: @escaping (Swift.Bool) -> Swift.Void)
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func register(token: Foundation.Data?)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func isGameNotification(userInfo: [Swift.AnyHashable : Any]?, gameId: Swift.String) -> Swift.Bool
-  #endif
 }
 public struct NotificationsGrant {
   public let enabled: Swift.Bool
@@ -598,67 +653,35 @@ public struct NotificationsGrant {
   public let pendingRequest: Swift.Bool
 }
 extension GamesLib.GamingHubCards {
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func open(_ gameid: Swift.String, data: [Swift.String : Any]? = nil)
-  #endif
   public class func close()
   public class func openMenu()
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func openScreen(_ gameid: Swift.String, screenName: Swift.String, data: [Swift.String : Any]? = nil)
-  #endif
   public class func openAchievements(gameId: Swift.String)
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func openArticle(gameId: Swift.String, tag: Swift.String? = nil, id: Swift.String? = nil)
-  #endif
   public class func openUefaProfile()
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func openLink(_ url: Swift.String, gameId: Swift.String? = nil, extraInfo: [Swift.String : Any]? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func openDeepLink(_ url: Swift.String, gameId: Swift.String? = nil, extraInfo: [Swift.String : Any]? = nil)
-  #endif
   public class func showTabBar(_ show: Swift.Bool)
   public class func setLocale(_ locale: Swift.String)
   @discardableResult
   public class func open(url: Foundation.URL) -> Swift.Bool
 }
 extension GamesLib.GamingHubCards {
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func trackScreen(_ screenName: Swift.String, parameters: [Swift.String : Any]?, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func trackEvent(_ eventName: Swift.String, parameters: [Swift.String : Any]?, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func trackProductImpression(_ roundid: Swift.String, name: Swift.String, category: Swift.String, variant: Swift.String?, list: Swift.String, brand: Swift.String, index: Swift.Int, category2: Swift.String? = nil, category3: Swift.String? = nil, category4: Swift.String? = nil, category5: Swift.String? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func trackProductClick(_ roundid: Swift.String, name: Swift.String, category: Swift.String, variant: Swift.String?, list: Swift.String, brand: Swift.String, index: Swift.Int, category2: Swift.String? = nil, category3: Swift.String? = nil, category4: Swift.String? = nil, category5: Swift.String? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
-  #endif
   public class func setProviderUserProperty(_ provider: Swift.String, name: Swift.String, value: Swift.String)
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func setProviderUserProperties(_ provider: Swift.String, name: Swift.String, values: [Swift.String]?)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func dataWithTracking(_ data: [Swift.String : Any]?, list: Swift.String? = nil, brand: Swift.String? = nil, index: Swift.Int? = nil) -> [Swift.String : Any]?
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func trackSponsor(name: Swift.String, creativeName: Swift.String? = nil, slot: Swift.String? = nil, id: Swift.String? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func trackSponsorClick(name: Swift.String, creativeName: Swift.String? = nil, slot: Swift.String? = nil, id: Swift.String? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func domain(_ id: Swift.AnyHashable, gameId: Swift.String) -> GamesLib.TrackingParameters?
-  #endif
 }
 extension GamesLib.GamingHubCards {
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func login(_ gameid: Swift.String, afterLogin: ((Swift.Bool) -> Swift.Void)? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func register(_ gameid: Swift.String, afterLogin: ((Swift.Bool) -> Swift.Void)? = nil)
-  #endif
   public static var isLoggedIn: Swift.Bool {
     get
   }
@@ -687,9 +710,7 @@ extension Foundation.NSNotification.Name {
   public static let ghPlayedGame: Foundation.Notification.Name
 }
 extension UIKit.UIViewController {
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency public func add(gameCard child: UIKit.UIViewController, to parentView: UIKit.UIView? = nil)
-  #endif
   @_Concurrency.MainActor @preconcurrency public func remove()
 }
 extension SwiftUICore.View {
@@ -703,21 +724,15 @@ extension SwiftUICore.View {
 @_Concurrency.MainActor @preconcurrency public class GHSelfSizingHostingController<Content> : SwiftUI.UIHostingController<Content> where Content : SwiftUICore.View {
   @_Concurrency.MainActor @preconcurrency @objc override dynamic public func viewDidLayoutSubviews()
   @_Concurrency.MainActor @preconcurrency override public init(rootView: Content)
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency override public init?(coder aDecoder: Foundation.NSCoder, rootView: Content)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
-  #endif
   @objc deinit
 }
 extension SwiftUICore.View {
   @_Concurrency.MainActor @preconcurrency public func ghOnNotification(_ notificationName: Foundation.Notification.Name, perform action: @escaping () -> Swift.Void) -> some SwiftUICore.View
   
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency public func ghOnNotification(_ notificationName: Foundation.Notification.Name, perform action: @escaping ([Swift.AnyHashable : Any]?) -> Swift.Void) -> some SwiftUICore.View
   
-  #endif
   @_Concurrency.MainActor @preconcurrency public func ghOnLoggedIn(perform action: @escaping () -> Swift.Void) -> some SwiftUICore.View
   
   @_Concurrency.MainActor @preconcurrency public func ghOnLoggedOut(perform action: @escaping () -> Swift.Void) -> some SwiftUICore.View
@@ -728,9 +743,7 @@ public struct GHTheme {
   public let bundle: Foundation.Bundle
   public let configuration: GamesLib.ThemeConfiguration
   public init(name: Swift.String, in containingBundle: Foundation.Bundle = .main) throws
-  #if compiler(>=5.3) && $NonescapableTypes
   public init?(competitionId: Swift.Int, in containingBundle: Foundation.Bundle = .main) throws
-  #endif
 }
 @objc @_inheritsConvenienceInitializers public class GhThemeImportCheck : ObjectiveC.NSObject {
   @objc override dynamic public init()
@@ -748,15 +761,9 @@ public class GHThemeManager : Foundation.ObservableObject {
   @objc deinit
 }
 extension GamesLib.GHThemeManager {
-  #if compiler(>=5.3) && $NonescapableTypes
   public func opaqueAppearance(for theme: GamesLib.GHTheme? = nil, isHomeFeed: Swift.Bool = true) -> UIKit.UINavigationBarAppearance
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func apply(theme: GamesLib.GHTheme? = nil, on navigationController: UIKit.UINavigationController, isHomeFeed: Swift.Bool = true)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func applyTransparent(theme: GamesLib.GHTheme? = nil, on navigationController: UIKit.UINavigationController)
-  #endif
 }
 extension GamesLib.GamingHubCompetitions {
   public var bundleName: Swift.String {
@@ -851,9 +858,7 @@ public enum ColorKey : Swift.String, Swift.CaseIterable {
   case customGradient6fc
   case customGradient7fc
   public func substitute(lightTheme: Swift.Bool) -> GamesLib.ColorKey
-  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.String)
-  #endif
   public typealias AllCases = [GamesLib.ColorKey]
   public typealias RawValue = Swift.String
   nonisolated public static var allCases: [GamesLib.ColorKey] {
@@ -941,9 +946,7 @@ public enum ImageKey : Swift.String, Swift.CaseIterable {
   case largeCardUnlockBackground
   case ribon
   case badgesCardNewUserBG
-  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.String)
-  #endif
   public typealias AllCases = [GamesLib.ImageKey]
   public typealias RawValue = Swift.String
   nonisolated public static var allCases: [GamesLib.ImageKey] {
@@ -954,12 +957,8 @@ public enum ImageKey : Swift.String, Swift.CaseIterable {
   }
 }
 extension GamesLib.GHTheme {
-  #if compiler(>=5.3) && $NonescapableTypes
   public func image(named: Swift.String) -> UIKit.UIImage?
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func image(_ key: GamesLib.ImageKey) -> UIKit.UIImage?
-  #endif
   public func image(_ key: GamesLib.ImageKey) -> SwiftUICore.Image
   public func image(named: Swift.String) -> SwiftUICore.Image
 }
@@ -974,63 +973,40 @@ extension GamesLib.GHTheme {
     get
   }
   public static let sharedInstance: GamesLib.APIManager
-  #if compiler(>=5.3) && $NonescapableTypes
   public func setup(environment: GamesLib.GamingHubEnvironment = .production, clientId: Swift.String, appVersion: Swift.String, competition: Swift.Int = GamingHubCompetitions.main.rawValue, season: Swift.Int? = nil, locale: Swift.String? = nil, config: [Swift.String : Any]? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func setCompetition(_ competition: Swift.Int, season: Swift.Int?, environment: GamesLib.GamingHubEnvironment? = nil, config: [Swift.String : Any]? = nil)
-  #endif
   public func refreshTokenIfNeeded(broadcastOnLogin: Swift.Bool = true, completion: @escaping (Swift.Bool) -> Swift.Void)
-  #if compiler(>=5.3) && $NonescapableTypes
   @discardableResult
   public func call<T>(callmethod: Alamofire.HTTPMethod, path: Swift.String, parameters: [Swift.String : Any]? = nil, needsSessionId: Swift.Bool = true, requestModifier: ((inout Foundation.URLRequest) throws -> Swift.Void)? = nil, debugRawOutput: Swift.Bool = false, competitionId: Swift.Int? = nil, type: T.Type, completionHandler: @escaping (T?, (any Swift.Error)?) -> Swift.Void) -> Alamofire.DataRequest? where T : Swift.Decodable
-  #endif
+  public func call<T>(callmethod: Alamofire.HTTPMethod, path: Swift.String, parameters: [Swift.String : Any]? = nil, needsSessionId: Swift.Bool = true, requestModifier: ((inout Foundation.URLRequest) throws -> Swift.Void)? = nil, debugRawOutput: Swift.Bool = false, competitionId: Swift.Int? = nil) async throws -> T where T : Swift.Decodable
   public var initProps: [Swift.String : Any] {
     get
   }
-  #if compiler(>=5.3) && $NonescapableTypes
   public func initProps(_ data: [Swift.String : Any]? = nil, list: Swift.String? = nil, brand: Swift.String? = nil, index: Swift.Int? = nil) -> [Swift.String : Any]
-  #endif
   public func language() -> Swift.String
   public func defaultLanguage() -> Swift.String
   @objc deinit
 }
 @objc open class CallManager : ObjectiveC.NSObject {
-  #if compiler(>=5.3) && $NonescapableTypes
   public init(apiManager manager: GamesLib.APIManager?, path relativePath: Swift.String? = nil, postMethod: Alamofire.HTTPMethod = .get)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   open func call(parameters: [Swift.String : Any]? = nil, needsSessionId: Swift.Bool = true, completionHandler: @escaping (SwiftyJSON.JSON?, (any Swift.Error)?) -> Swift.Void)
-  #endif
   open func cancel()
   open func changePath(path relativePath: Swift.String)
   @objc deinit
 }
 open class CodableCallManager<Payload> : Foundation.ObservableObject where Payload : Swift.Decodable, Payload : Swift.Encodable, Payload : Swift.Equatable {
   public typealias DataPayload = Payload
-  #if compiler(>=5.3) && $NonescapableTypes
-  @Combine.Published @_projectedValueProperty($data) public var data: GamesLib.CodableCallManager<Payload>.DataPayload? {
+  @Combine.Published<GamesLib.CodableCallManager<Payload>.DataPayload?> @_projectedValueProperty($data) public var data: GamesLib.CodableCallManager<Payload>.DataPayload? {
     get
   }
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public var $data: Combine.Published<GamesLib.CodableCallManager<Payload>.DataPayload?>.Publisher {
     get
   }
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public init(path relativePath: Swift.String? = nil, method: Alamofire.HTTPMethod = .get, key: Swift.String? = nil, apiManager: GamesLib.APIManager = APIManager.sharedInstance, preprocess: Swift.Bool = false)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   open func call(parameters: [Swift.String : Any]? = nil, competitionId: Swift.Int? = nil, completion: ((Swift.Result<GamesLib.CodableCallManager<Payload>.DataPayload, any Swift.Error>) -> Swift.Void)? = nil)
-  #endif
   open func preProcess(data: GamesLib.CodableCallManager<Payload>.DataPayload) -> GamesLib.CodableCallManager<Payload>.DataPayload
-  #if compiler(>=5.3) && $NonescapableTypes
   open func sideEffect(data: GamesLib.CodableCallManager<Payload>.DataPayload?)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func clear(key savedKey: Swift.String? = nil)
-  #endif
   public func set(cache: GamesLib.CodableCallManager<Payload>.DataPayload)
   public var debugInfo: Swift.String {
     get
@@ -1060,9 +1036,7 @@ open class CodableCallManager<Payload> : Foundation.ObservableObject where Paylo
     get
   }
   public func saveCompetition(_ competition: Swift.Int)
-  #if compiler(>=5.3) && $NonescapableTypes
   public func apiPath(for endPoint: Swift.String, method: Alamofire.HTTPMethod = .get, competitionId: Swift.Int? = nil) -> Swift.String
-  #endif
   @objc deinit
 }
 @objc public enum GamingHubCompetitions : Swift.Int, Swift.CaseIterable {
@@ -1077,15 +1051,11 @@ open class CodableCallManager<Payload> : Foundation.ObservableObject where Paylo
     get
   }
   public static func integrated(id: Swift.Int) -> Swift.Bool
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func competition(for gameId: Swift.String) -> Swift.Int?
-  #endif
   public var competitionThemeBundleName: Swift.String {
     get
   }
-  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.Int)
-  #endif
   public typealias AllCases = [GamesLib.GamingHubCompetitions]
   public typealias RawValue = Swift.Int
   nonisolated public static var allCases: [GamesLib.GamingHubCompetitions] {
@@ -1100,16 +1070,10 @@ open class CodableCallManager<Payload> : Foundation.ObservableObject where Paylo
   public var isLoaded: Swift.Bool {
     get
   }
-  #if compiler(>=5.3) && $NonescapableTypes
   public func getAvailability(cachedGames: [SwiftyJSON.JSON]? = nil, forceRefresh: Swift.Bool = false, completionHandler: @escaping (Swift.Bool, (any Swift.Error)?) -> Swift.Void)
-  #endif
   public func isAvailable(gameId: Swift.String, resource: GamesLib.GamingHubResourceAvailability) -> Swift.Bool
-  #if compiler(>=5.3) && $NonescapableTypes
   public func gameInfo(for gameId: Swift.String) -> [Swift.String : Any]?
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func load(homeFeed: [SwiftyJSON.JSON]?)
-  #endif
   @objc deinit
 }
 public struct GHUser : Swift.Codable {
@@ -1128,6 +1092,7 @@ public struct GHUser : Swift.Codable {
   public let countryCode: Swift.String?
   public let favouriteClub: Swift.String?
   public let isFirstSeason: Swift.Bool
+  public let isMiniRegistartionCompleted: Swift.Bool
   public let token: GamesLib.GHUserToken?
   public func updatedUser(level: Swift.String, levelName: Swift.String, levelColor: Swift.String, xp: Swift.Int, startingXP: Swift.Int, nextLevel: Swift.Int, nextLevelXP: Swift.Int) -> GamesLib.GHUser
   public static var empty: GamesLib.GHUser {
@@ -1140,11 +1105,9 @@ public struct GHAvatar : Swift.Codable, Swift.Equatable {
   public let id: Swift.Int
   public let url: Swift.String
   public init(id: Swift.Int, url: Swift.String)
-  #if compiler(>=5.3) && $NonescapableTypes
   public var imageUrl: Foundation.URL? {
     get
   }
-  #endif
   public static func == (lhs: GamesLib.GHAvatar, rhs: GamesLib.GHAvatar) -> Swift.Bool
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
@@ -1172,24 +1135,18 @@ public enum GamingHubEnvironment : Swift.String {
   public var mapRNEnvironment: Swift.String {
     get
   }
-  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.String)
-  #endif
   public typealias RawValue = Swift.String
   public var rawValue: Swift.String {
     get
   }
 }
 @_hasMissingDesignatedInitializers public class ImageSaveManager {
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func save(_ assetLink: Swift.String?, completionHandler: @escaping ((any Swift.Error)?) -> Swift.Void)
-  #endif
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class InstagramStory {
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func share(_ stickerLink: Swift.String?, backgroundLink: Swift.String?, backgroundTopColor: Swift.String?, backgroundBottomColor: Swift.String?, contentUrl: Swift.String?, completionHandler: @escaping ((any Swift.Error)?) -> Swift.Void)
-  #endif
   public static var hasFacebookId: Swift.Bool {
     get
   }
@@ -1199,16 +1156,12 @@ public let GHFCMTOKEN: Swift.String
 public let GHNotificationLoggedOut: Swift.String
 public let GHNotificationLoggedIn: Swift.String
 @objc @_hasMissingDesignatedInitializers public class LoginManager : ObjectiveC.NSObject, Foundation.ObservableObject {
-  #if compiler(>=5.3) && $NonescapableTypes
-  @Combine.Published @_projectedValueProperty($currentUser) public var currentUser: GamesLib.GHUser? {
+  @Combine.Published<GamesLib.GHUser?> @_projectedValueProperty($currentUser) public var currentUser: GamesLib.GHUser? {
     get
   }
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public var $currentUser: Combine.Published<GamesLib.GHUser?>.Publisher {
     get
   }
-  #endif
   weak public var databaseCleaner: (any GamesLib.GHDatabaseCleaner)?
   weak public var tokenRegistrator: (any GamesLib.GHPushTokenRegistrator)?
   public var sessionid: Swift.String? {
@@ -1271,9 +1224,10 @@ public let GHNotificationLoggedIn: Swift.String
   public var isFirstSeason: Swift.Bool {
     get
   }
-  #if compiler(>=5.3) && $NonescapableTypes
+  public var isMiniRegistrationCompleted: Swift.Bool {
+    get
+  }
   public static func sharedInstance(apiManager manager: GamesLib.APIManager? = nil) -> GamesLib.LoginManager
-  #endif
   public var isLoggedin: Swift.Bool {
     get
   }
@@ -1289,48 +1243,29 @@ public let GHNotificationLoggedIn: Swift.String
   public var isUserLoggedin: Swift.Bool {
     get
   }
-  #if compiler(>=5.3) && $NonescapableTypes
   @discardableResult
   public func login(idToken: Swift.String?, accessToken: Swift.String?, completionHandler: ((Swift.Bool) -> Swift.Void)?) -> Swift.Bool
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func logOut(forceLogout: Swift.Bool = false, completionHandler: ((Swift.Bool) -> Swift.Void)? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func refreshUserInfo(with userInfo: SwiftyJSON.JSON?)
-  #endif
   public func refreshUserAvatar(with avatarId: Swift.Int, avatarUrl: Swift.String)
-  #if compiler(>=5.3) && $NonescapableTypes
   public func updateTokens(tokenType: Swift.String?, accessToken: Swift.String?, refreshToken: Swift.String?, expiresIn: Swift.Int?, broadcastOnLogin: Swift.Bool = true)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func updateTokens(payload: Any?, broadcastOnLogin: Swift.Bool = true)
-  #endif
   public func testBreakTokens(brakeRefreshToken: Swift.Bool = false)
-  #if compiler(>=5.3) && $NonescapableTypes
   public var userParams: [Swift.String : Any]? {
     get
   }
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public var tokenParams: [Swift.String : Any]? {
     get
   }
-  #endif
   public func updatedUser(level: Swift.String, levelName: Swift.String, levelColor: Swift.String, xp: Swift.Int, startingXP: Swift.Int, nextLevel: Swift.Int, nextLevelXP: Swift.Int)
-  #if compiler(>=5.3) && $NonescapableTypes
   public func prepareAnonymousIfNeeded(completionHandler: ((Swift.Bool) -> Swift.Void)? = nil)
-  #endif
   public func tokenWouldExpire(after: Swift.Double = 1800.0) -> Swift.Bool
-  #if compiler(>=5.3) && $NonescapableTypes
   @discardableResult
   public func refreshUserInfoFromServer(completionHandler: ((Swift.Bool) -> Swift.Void)? = nil) -> Swift.Bool
-  #endif
   public func updateAvatar(id: Swift.Int, url: Swift.String)
   public func isCurrent(user: GamesLib.GHUser) -> Swift.Bool
-  #if compiler(>=5.3) && $NonescapableTypes
   public func isCurrent(userId: Swift.Int?) -> Swift.Bool
-  #endif
+  public func finishMiniRegistration()
   public typealias ObjectWillChangePublisher = Combine.ObservableObjectPublisher
   @objc deinit
 }
@@ -1340,82 +1275,46 @@ public protocol GHDatabaseCleaner : AnyObject {
 public protocol GHPushTokenRegistrator : AnyObject {
   func registerToken()
   func reregisterTokenIfNeeded()
-  #if compiler(>=5.3) && $NonescapableTypes
   func register(token: Foundation.Data?)
-  #endif
 }
 extension GamesLib.LoginManager {
-  #if compiler(>=5.3) && $NonescapableTypes
   public func checkLoggedInFan(uefaId: Swift.String?) -> Swift.Bool
-  #endif
 }
 open class APICallAManger<T> where T : Swift.Decodable {
-  #if compiler(>=5.3) && $NonescapableTypes
   public init(path relativePath: Swift.String, method requestType: Alamofire.HTTPMethod = .get, additionalHeaders: [Swift.String : Swift.String]? = nil, apiManager api: GamesLib.APIManager? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func call(parameters: [Swift.String : Any]? = nil, competitionId: Swift.Int? = nil, completion: @escaping (T?, (any Swift.Error)?) -> Swift.Void)
-  #endif
   @objc deinit
 }
 @objc open class RawDataCallManager : ObjectiveC.NSObject {
-  #if compiler(>=5.3) && $NonescapableTypes
   public init(apiManager manager: GamesLib.APIManager? = nil, path relativePath: Swift.String? = nil, postMethod: Alamofire.HTTPMethod = .get, debounce: Swift.Bool = true)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   open func call(parameters: [Swift.String : Any]? = nil, needsSessionId: Swift.Bool = true, completionHandler: @escaping (Foundation.Data?, (any Swift.Error)?) -> Swift.Void)
-  #endif
   open func changePath(path relativePath: Swift.String)
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers public class TokenRegistrationCallManager : GamesLib.CallManager {
-  #if compiler(>=5.3) && $NonescapableTypes
   convenience public init(token: Swift.String?, type: Swift.String = "ios")
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func update(token: Swift.String? = nil, completionHandler: @escaping (SwiftyJSON.JSON?, (any Swift.Error)?) -> Swift.Void)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   override public init(apiManager manager: GamesLib.APIManager?, path relativePath: Swift.String? = nil, postMethod: Alamofire.HTTPMethod = super)
-  #endif
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers public class GamingHubCards : ObjectiveC.NSObject {
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func setup(environment: GamesLib.GamingHubEnvironment = .production, clientId: Swift.String, appVersion: Swift.String, cardsAnalytics analytics: (any GamesLib.GHCardsTrackingProtocol)? = nil, competition: Swift.Int = GamingHubCompetitions.main.rawValue, season: Swift.Int? = nil, locale: Swift.String? = nil, config: [Swift.String : Any]? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc public static func setup(environment: Swift.String = "prod", clientId: Swift.String, appVersion: Swift.String, cardsAnalytics analytics: (any GamesLib.GHCardsTrackingProtocol)? = nil, competition: Swift.Int = GamingHubCompetitions.main.rawValue, season: Swift.Int = 0, locale: Swift.String? = nil, config: [Swift.String : Any]? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func initialize(completionHandler: ((Swift.Bool) -> Swift.Void)?)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @discardableResult
   public static func authorize(idToken: Swift.String?, accessToken: Swift.String?, completionHandler: ((Swift.Bool) -> Swift.Void)? = nil) -> Swift.Bool
-  #endif
   public static func logout()
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func setCompetition(_ competition: Swift.Int, season: Swift.Int? = nil)
-  #endif
   @available(iOS, introduced: 9.0, deprecated: 10.0, message: "use initProps(_ data:,list:,brand:) to provide tracking parameters from the host")
   public static var initProps: [Swift.String : Swift.AnyObject] {
     get
   }
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func initProps(_ data: [Swift.String : Any]? = nil, list: Swift.String? = nil, brand: Swift.String? = nil, index: Swift.Int? = nil) -> [Swift.String : Swift.AnyObject]
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public static var userProps: [Swift.String : Swift.AnyObject]? {
     get
   }
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func refreshToken(completionHandler: ((Swift.Bool) -> Swift.Void)? = nil) -> Swift.Bool
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func getAvailability(completionHandler: ((Swift.Bool) -> Swift.Void)? = nil)
-  #endif
   public static func isAvailable(gameId: Swift.String, resource: GamesLib.GamingHubResourceAvailability) -> Swift.Bool
   public static var cardsAnalytics: (any GamesLib.GHCardsTrackingProtocol)?
   public static func activate(gameId: Swift.String, active: Swift.Bool)
@@ -1427,9 +1326,7 @@ public enum GamingHubResourceAvailability : Swift.String {
   case game
   case homefeedCard
   case matchCard
-  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.String)
-  #endif
   public typealias RawValue = Swift.String
   public var rawValue: Swift.String {
     get
@@ -1438,15 +1335,11 @@ public enum GamingHubResourceAvailability : Swift.String {
 extension GamesLib.GamingHubCards {
   @discardableResult
   public static func initialize() async -> Swift.Bool
-  #if compiler(>=5.3) && $NonescapableTypes
   @discardableResult
   public static func authorize(idToken: Swift.String?, accessToken: Swift.String?) async throws -> Swift.Bool
-  #endif
 }
 extension GamesLib.GamingHubCards {
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func getSponsors(tags: Swift.String? = nil, raw: Swift.Bool = true, competitionId: Swift.Int? = nil, completion: @escaping ([[Swift.String : Any]]?, [GamesLib.SponsorLogo]?) -> Swift.Void)
-  #endif
 }
 public struct SponsorLogo : Swift.Decodable, Swift.Hashable {
   public static func == (lhs: GamesLib.SponsorLogo, rhs: GamesLib.SponsorLogo) -> Swift.Bool
@@ -1466,14 +1359,10 @@ public struct SponsorLogo : Swift.Decodable, Swift.Hashable {
   public let secondaryColour: Swift.String
   public let tags: [Swift.String]?
   public let type: Swift.String
-  #if compiler(>=5.3) && $NonescapableTypes
   public func imageUrl(size: CoreFoundation.CGFloat) -> Foundation.URL?
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public var link: Foundation.URL? {
     get
   }
-  #endif
   public var competitionId: Swift.String {
     get
   }
@@ -1504,26 +1393,20 @@ public enum TrackingProviders : Swift.String {
   case firebase
   case blueconic
   case adjust
+  case tealium
   case all
-  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.String)
-  #endif
   public typealias RawValue = Swift.String
   public var rawValue: Swift.String {
     get
   }
 }
+public let DefaultTrackingProvider: GamesLib.TrackingProviders
 public protocol IdpProfileProtocol : AnyObject {
-  #if compiler(>=5.3) && $NonescapableTypes
   func setUsername(_ username: Swift.String, completion: @escaping ((any Swift.Error)?) -> Swift.Void)
-  #endif
   func setAvatar(_ avatarId: Swift.Int, avatarUrl: Swift.String, completion: @escaping (Swift.Bool) -> Swift.Void)
-  #if compiler(>=5.3) && $NonescapableTypes
   func getEmailSubscriptions(completion: @escaping ([Swift.String]?, (any Swift.Error)?) -> Swift.Void)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   func subscribeToEmail(subscriptionId: Swift.String, completion: @escaping ((any Swift.Error)?) -> Swift.Void)
-  #endif
 }
 public struct GHGameNotificationChannel : Swift.Codable, Swift.Equatable {
   public let gameId: Swift.String
@@ -1559,9 +1442,7 @@ public struct CompetitionChannels : Swift.Codable, Swift.Equatable {
   public init(from decoder: any Swift.Decoder) throws
 }
 public struct GameNotificationChannel {
-  #if compiler(>=5.3) && $NonescapableTypes
   public init(id: Swift.String, gameId: Swift.String, title: Swift.String, description: Swift.String? = nil, status: Swift.Bool)
-  #endif
   public let id: Swift.String
   public let gameId: Swift.String
   public let title: Swift.String
@@ -1571,15 +1452,9 @@ public struct GameNotificationChannel {
 }
 @_hasMissingDesignatedInitializers public class GameNotificationsManager {
   public class func isNotificationsGranted(completion: @escaping (UserNotifications.UNAuthorizationStatus) -> Swift.Void)
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func enableSystemNotifications(gameId: Swift.String, completion: @escaping (Swift.Result<Swift.Bool, any Swift.Error>) -> Swift.Void)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func channels(for gameId: Swift.String, completion: @escaping (Swift.Result<[GamesLib.GameNotificationChannel], any Swift.Error>) -> Swift.Void)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func set(newStatus: Swift.Bool, forNotificationChannel channel: GamesLib.GameNotificationChannel, completion: @escaping (Swift.Result<GamesLib.GameNotificationChannel, any Swift.Error>) -> Swift.Void)
-  #endif
   @objc deinit
 }
 extension Foundation.NSNotification.Name {
@@ -1592,17 +1467,11 @@ extension Foundation.NSNotification.Name {
   public class func isNotificationsGranted(completion: @escaping ([Swift.String : Any]) -> Swift.Void)
   @available(*, deprecated, message: "Use GameNotificationsManager.enableSystemNotifications(gameId: String, completion: @escaping (Result<Bool,Error>)->Void)")
   open class func requestNotificationsPermission(completion: @escaping ([Swift.String : Any]) -> Swift.Void)
-  #if compiler(>=5.3) && $NonescapableTypes
   open class func enableSystemNotifications(completion: @escaping (Swift.Result<Swift.Bool, any Swift.Error>) -> Swift.Void)
-  #endif
   open class func requestFirstTime(completion: @escaping ([Swift.String : Any]) -> Swift.Void)
-  #if compiler(>=5.3) && $NonescapableTypes
   open class func requestSecondTime(completion: @escaping (Swift.Result<Swift.Bool, any Swift.Error>) -> Swift.Void)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @available(*, deprecated, message: "Use NotificationsPrefsManager.channels(for gameId: String, completion: @escaping (Result<[GameNotificationChannel],Error>)->Void)")
   public class func getNotificationChannels(completion: @escaping ([Any], (any Swift.Error)?) -> Swift.Void)
-  #endif
   @available(*, deprecated, message: "Use NotificationsPrefsManager.updateNotificationChannel(_ channel: GameNotificationChannel, newStatus: Bool, completion: @escaping (Result<GameNotificationChannel,Error>)->Void)")
   public class func setNotificationChannel(game_id: Swift.String, notification_id: Swift.String, state: Swift.Int, completion: @escaping (Swift.Bool) -> Swift.Void)
   public class func trackNotificationsPrefs(force: Swift.Bool = false)
@@ -1611,49 +1480,29 @@ extension Foundation.NSNotification.Name {
   @objc deinit
 }
 extension UIKit.UIWindow {
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency public func ghVisibleViewController() -> UIKit.UIViewController?
-  #endif
 }
 extension UIKit.UIApplication {
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency public var topVisibleController: UIKit.UIViewController? {
     get
   }
-  #endif
 }
 extension GamesLib.NotificationsPrefsManager {
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func channels(for gameId: Swift.String, completion: @escaping (Swift.Result<[GamesLib.GameNotificationChannel], any Swift.Error>) -> Swift.Void)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func updateNotificationChannel(_ channel: GamesLib.GameNotificationChannel, newStatus: Swift.Bool, completion: @escaping (Swift.Result<GamesLib.GameNotificationChannel, any Swift.Error>) -> Swift.Void)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func competitions(completion: @escaping (Swift.Result<[GamesLib.CompetitionChannels], any Swift.Error>) -> Swift.Void)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func updateNotificationChannel(_ channel: GamesLib.GHGameNotificationChannel, newStatus: Swift.Bool, completion: @escaping (Swift.Result<GamesLib.GHGameNotificationChannel, any Swift.Error>) -> Swift.Void)
-  #endif
 }
 public protocol AnalyticsInspectorProtocol : AnyObject {
-  #if compiler(>=5.3) && $NonescapableTypes
   func log(event: Swift.String, parameters: [Swift.String : Any]?, on consumer: Swift.String)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   func log(property: Swift.String, value: Any?, on consumer: Swift.String)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   func log(property: Swift.String, values: [Swift.String]?, on consumer: Swift.String)
-  #endif
 }
 public let defaultServer: Swift.String
 @objc open class AnalyticsInspector : ObjectiveC.NSObject {
   public init(server: Swift.String = AnalyticsInspector.endpoint)
   public func prepare(with server: Swift.String, session: Foundation.URLSession = URLSession.shared)
-  #if compiler(>=5.3) && $NonescapableTypes
   public func post(event: Swift.String, parameters: [Swift.String : Any]?, on platform: Swift.String)
-  #endif
   public static var enabled: Swift.Bool {
     get
     set
@@ -1662,61 +1511,33 @@ public let defaultServer: Swift.String
     get
     set
   }
-  #if compiler(>=5.3) && $NonescapableTypes
   public class func getInspector() -> GamesLib.AnalyticsInspector?
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func setupInspector(enable: Swift.Bool? = nil, with serverAddress: Swift.String? = nil)
-  #endif
   @objc deinit
 }
 extension GamesLib.AnalyticsInspector : GamesLib.AnalyticsInspectorProtocol {
-  #if compiler(>=5.3) && $NonescapableTypes
   public func log(event: Swift.String, parameters: [Swift.String : Any]?, on consumer: Swift.String)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func log(property: Swift.String, value: Any?, on consumer: Swift.String)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public func log(property: Swift.String, values: [Swift.String]?, on consumer: Swift.String)
-  #endif
 }
 @_hasMissingDesignatedInitializers public class GHBlueConicTracker {
   public static var inspector: (any GamesLib.AnalyticsInspectorProtocol)?
   public static func initilizeUserProperties()
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func trackScreen(name: Swift.String, parameters: [Swift.String : Any]? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func trackEvent(name: Swift.String, parameters: [Swift.String : Any]? = nil)
-  #endif
   @objc deinit
 }
 @objc public protocol GHCardsTrackingProtocol {
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc func trackProductImpression(provider: Swift.String, id: Swift.String, name: Swift.String, category: Swift.String, variant: Swift.String?, list: Swift.String, brand: Swift.String, index: Swift.Int, category2: Swift.String?, category3: Swift.String?, category4: Swift.String?, category5: Swift.String?, domain: Swift.AnyHashable?, gameId: Swift.String?)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc func trackProductClick(provider: Swift.String, id: Swift.String, name: Swift.String, category: Swift.String, variant: Swift.String?, list: Swift.String, brand: Swift.String, index: Swift.Int, category2: Swift.String?, category3: Swift.String?, category4: Swift.String?, category5: Swift.String?, domain: Swift.AnyHashable?, gameId: Swift.String?)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc func trackScreen(provider: Swift.String, name: Swift.String, parameters: [Swift.String : Any]?, domain: Swift.AnyHashable?, gameId: Swift.String?)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc func trackEvent(provider: Swift.String, name: Swift.String, parameters: [Swift.String : Any]?, domain: Swift.AnyHashable?, gameId: Swift.String?)
-  #endif
   @objc func initilizeUserProperties()
   @objc func track(page: Swift.String, subType: Swift.String, type: Swift.String, section3: Swift.String, section2: Swift.String, section1: Swift.String)
   @objc func trackClick(action: Swift.String, screen: Swift.String, name: Swift.String, category: Swift.String, label: Swift.String)
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc func setProviderUserProperty(provider: Swift.String, value: Swift.String?, forName key: Swift.String)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc func setProviderUserProperties(provider: Swift.String, values: [Swift.String]?, forName key: Swift.String)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc func setAnalytics(inspector: GamesLib.AnalyticsInspector?)
-  #endif
 }
 @objc public protocol GHCardsImpressionsGroupingProtocol {
   @objc func flushImpressions()
@@ -1727,71 +1548,39 @@ public class GHDefaultCardsTracker {
   @objc deinit
 }
 extension GamesLib.GHDefaultCardsTracker : GamesLib.GHCardsTrackingProtocol {
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc dynamic public func trackScreen(provider: Swift.String = TrackingProviders.all.rawValue, name: Swift.String, parameters: [Swift.String : Any]?, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
-  @objc dynamic public func trackEvent(provider: Swift.String = TrackingProviders.firebase.rawValue, name: Swift.String, parameters: [Swift.String : Any]?, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
+  @objc dynamic public func trackEvent(provider: Swift.String = DefaultTrackingProvider.rawValue, name: Swift.String, parameters: [Swift.String : Any]?, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
   @objc dynamic public func trackProductImpression(provider: Swift.String, id: Swift.String, name: Swift.String, category: Swift.String, variant: Swift.String?, list: Swift.String, brand: Swift.String, index: Swift.Int, category2: Swift.String? = nil, category3: Swift.String? = nil, category4: Swift.String? = nil, category5: Swift.String? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc dynamic public func trackProductClick(provider: Swift.String, id: Swift.String, name: Swift.String, category: Swift.String, variant: Swift.String?, list: Swift.String, brand: Swift.String, index: Swift.Int, category2: Swift.String? = nil, category3: Swift.String? = nil, category4: Swift.String? = nil, category5: Swift.String? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
-  #endif
   @objc dynamic public func initilizeUserProperties()
   @objc dynamic public func track(page: Swift.String, subType: Swift.String, type: Swift.String, section3: Swift.String, section2: Swift.String = "gaminghub", section1: Swift.String = "gaminghub")
   @objc dynamic public func trackClick(action: Swift.String, screen: Swift.String = "", name: Swift.String = GH_ACTION_TRACK_EVENT, category: Swift.String = "Click", label: Swift.String = "gaminghub")
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc dynamic public func setProviderUserProperty(provider: Swift.String, value: Swift.String?, forName key: Swift.String)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc dynamic public func setProviderUserProperties(provider: Swift.String, values: [Swift.String]?, forName key: Swift.String)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc dynamic public func setAnalytics(inspector: GamesLib.AnalyticsInspector?)
-  #endif
 }
 extension GamesLib.GHDefaultCardsTracker : GamesLib.GHCardsImpressionsGroupingProtocol {
   @objc dynamic public func flushImpressions()
 }
 @_inheritsConvenienceInitializers public class GHDefaultEventsTracker : GamesLib.GHDefaultCardsTracker {
   @objc override dynamic public func initilizeUserProperties()
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc override dynamic public func setProviderUserProperty(provider: Swift.String, value: Swift.String?, forName key: Swift.String)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc override dynamic public func setProviderUserProperties(provider: Swift.String, values: [Swift.String]?, forName key: Swift.String)
-  #endif
   override public init()
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class GHFirebaseTracker {
   public static var inspector: (any GamesLib.AnalyticsInspectorProtocol)?
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func trackScreen(name: Swift.String, parameters: [Swift.String : Any]? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func trackEvent(name: Swift.String, parameters: [Swift.String : Any]? = nil)
-  #endif
   public static func trackClick(action: Swift.String, screen: Swift.String = "", name: Swift.String = GH_ACTION_TRACK_EVENT, category: Swift.String = "Click", label: Swift.String = "gaminghub")
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func trackProductImpression(id: Swift.String, name: Swift.String, category: Swift.String, variant: Swift.String?, list: Swift.String, brand: Swift.String, index: Swift.Int)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func trackProductClick(id: Swift.String, name: Swift.String, category: Swift.String, variant: Swift.String?, list: Swift.String, brand: Swift.String, index: Swift.Int)
-  #endif
   public static func track(page: Swift.String, subType: Swift.String, type: Swift.String, section3: Swift.String, section2: Swift.String = "gaminghub", section1: Swift.String = "gaminghub")
   public static func initilizeUserProperties()
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func setUserProperty(_ value: Swift.String?, forName key: Swift.String)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func updatePushNotificationsUserProperty(value: Swift.String? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public static func trackSponsor(name: Swift.String, creativeName: Swift.String? = nil, slot: Swift.String? = nil, id: Swift.String? = nil)
-  #endif
   @objc deinit
 }
 public let GH_ACTION_TRACK_SCREEN: Swift.String
@@ -1815,12 +1604,8 @@ public let GH_TRACKING_PAGE_FORMAT_VALUE: Swift.String
   @_Concurrency.MainActor @preconcurrency open var superDomain: Swift.String?
   @_Concurrency.MainActor @preconcurrency public var domainRegistrationDone: Swift.Bool
   @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewDidAppear(_ animated: Swift.Bool)
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
-  #endif
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @_Concurrency.MainActor @preconcurrency open class GHTrackingTableViewController : UIKit.UITableViewController, GamesLib.TrackingLocationInfoProtocol, GamesLib.TrackingDomainViewController {
@@ -1835,12 +1620,8 @@ public let GH_TRACKING_PAGE_FORMAT_VALUE: Swift.String
   @_Concurrency.MainActor @preconcurrency public var domainRegistrationDone: Swift.Bool
   @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewDidAppear(_ animated: Swift.Bool)
   @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(style: UIKit.UITableView.Style)
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
-  #endif
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @_Concurrency.MainActor @preconcurrency open class GHTrackingCollectionViewController : UIKit.UICollectionViewController, GamesLib.TrackingLocationInfoProtocol, GamesLib.TrackingDomainViewController {
@@ -1855,12 +1636,8 @@ public let GH_TRACKING_PAGE_FORMAT_VALUE: Swift.String
   @_Concurrency.MainActor @preconcurrency public var domainRegistrationDone: Swift.Bool
   @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewDidAppear(_ animated: Swift.Bool)
   @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(collectionViewLayout layout: UIKit.UICollectionViewLayout)
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
-  #endif
   @objc deinit
 }
 public protocol TrackingDomainViewController : UIKit.UIViewController {
@@ -1869,15 +1646,9 @@ public protocol TrackingDomainViewController : UIKit.UIViewController {
   var trackSection3: Swift.String { get }
   var trackPageType: Swift.String { get }
   var trackPageSubType: Swift.String { get }
-  #if compiler(>=5.3) && $NonescapableTypes
   var trackPage: Swift.String? { get }
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   var domain: Swift.AnyHashable? { get set }
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   var superDomain: Swift.String? { get set }
-  #endif
   var domainRegistrationDone: Swift.Bool { get set }
   func onAppeared()
   func tpPageType() -> Swift.String
@@ -1902,6 +1673,16 @@ public protocol TrackingLocationInfoProtocol : AnyObject {
 }
 extension GamesLib.GHBannerView : Swift.Sendable {}
 extension GamesLib.GHAdBannerWithFallBack : Swift.Sendable {}
+extension GamesLib.HTMLWebView : Swift.Sendable {}
+extension GamesLib.HTMLWebView.Coordinator : Swift.Sendable {}
+extension GamesLib.AdContainerViewModel : Swift.Sendable {}
+extension GamesLib.AdScriptEventType : Swift.Equatable {}
+extension GamesLib.AdScriptEventType : Swift.Hashable {}
+extension GamesLib.AdScriptEventType : Swift.RawRepresentable {}
+extension GamesLib.SlotName : Swift.Equatable {}
+extension GamesLib.SlotName : Swift.Hashable {}
+extension GamesLib.SlotName : Swift.RawRepresentable {}
+extension GamesLib.WebAdBanner : Swift.Sendable {}
 extension GamesLib.GHIDPManager : Swift.Sendable {}
 extension GamesLib.GHIDPAuthenticator : Swift.Equatable {}
 extension GamesLib.GHIDPAuthenticator : Swift.Hashable {}
