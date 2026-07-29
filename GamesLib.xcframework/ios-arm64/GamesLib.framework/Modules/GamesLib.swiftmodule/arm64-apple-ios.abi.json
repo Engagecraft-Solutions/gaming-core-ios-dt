@@ -19284,41 +19284,6 @@
         "moduleName": "GamesLib"
       },
       {
-        "kind": "Import",
-        "name": "TealiumCore",
-        "printedName": "TealiumCore",
-        "declKind": "Import",
-        "moduleName": "GamesLib"
-      },
-      {
-        "kind": "Import",
-        "name": "TealiumCollect",
-        "printedName": "TealiumCollect",
-        "declKind": "Import",
-        "moduleName": "GamesLib"
-      },
-      {
-        "kind": "Import",
-        "name": "TealiumLifecycle",
-        "printedName": "TealiumLifecycle",
-        "declKind": "Import",
-        "moduleName": "GamesLib"
-      },
-      {
-        "kind": "Import",
-        "name": "TealiumTagManagement",
-        "printedName": "TealiumTagManagement",
-        "declKind": "Import",
-        "moduleName": "GamesLib"
-      },
-      {
-        "kind": "Import",
-        "name": "TealiumAttribution",
-        "printedName": "TealiumAttribution",
-        "declKind": "Import",
-        "moduleName": "GamesLib"
-      },
-      {
         "kind": "TypeDecl",
         "name": "TealiumTracker",
         "printedName": "TealiumTracker",
@@ -19465,8 +19430,7 @@
             "static": true,
             "declAttributes": [
               "Final",
-              "AccessControl",
-              "RawDocComment"
+              "AccessControl"
             ],
             "funcSelfKind": "NonMutating"
           },
@@ -19644,6 +19608,62 @@
           },
           {
             "kind": "Function",
+            "name": "trackClick",
+            "printedName": "trackClick(action:screen:name:category:label:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "hasDefaultArg": true,
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "hasDefaultArg": true,
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "hasDefaultArg": true,
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "hasDefaultArg": true,
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:8GamesLib14TealiumTrackerC10trackClick6action6screen4name8category5labelySS_S4StFZ",
+            "mangledName": "$s8GamesLib14TealiumTrackerC10trackClick6action6screen4name8category5labelySS_S4StFZ",
+            "moduleName": "GamesLib",
+            "static": true,
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
             "name": "trackProductImpression",
             "printedName": "trackProductImpression(id:name:category:variant:list:brand:index:category2:category3:category4:category5:domain:gameId:)",
             "children": [
@@ -19800,8 +19820,7 @@
             "static": true,
             "declAttributes": [
               "Final",
-              "AccessControl",
-              "RawDocComment"
+              "AccessControl"
             ],
             "funcSelfKind": "NonMutating"
           },
@@ -19969,6 +19988,66 @@
           },
           {
             "kind": "Function",
+            "name": "track",
+            "printedName": "track(page:subType:type:section3:section2:section1:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "hasDefaultArg": true,
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "hasDefaultArg": true,
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:8GamesLib14TealiumTrackerC5track4page7subType4type8section38section28section1ySS_S5StFZ",
+            "mangledName": "$s8GamesLib14TealiumTrackerC5track4page7subType4type8section38section28section1ySS_S5StFZ",
+            "moduleName": "GamesLib",
+            "static": true,
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
             "name": "initilizeUserProperties",
             "printedName": "initilizeUserProperties()",
             "children": [
@@ -20064,8 +20143,29 @@
             "static": true,
             "declAttributes": [
               "Final",
-              "AccessControl",
-              "RawDocComment"
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "setDefaultParameters",
+            "printedName": "setDefaultParameters()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:8GamesLib14TealiumTrackerC20setDefaultParametersyyFZ",
+            "mangledName": "$s8GamesLib14TealiumTrackerC20setDefaultParametersyyFZ",
+            "moduleName": "GamesLib",
+            "static": true,
+            "declAttributes": [
+              "Final",
+              "AccessControl"
             ],
             "funcSelfKind": "NonMutating"
           },
@@ -20168,8 +20268,7 @@
             "static": true,
             "declAttributes": [
               "Final",
-              "AccessControl",
-              "RawDocComment"
+              "AccessControl"
             ],
             "funcSelfKind": "NonMutating"
           },
@@ -20275,29 +20374,6 @@
               "AccessControl"
             ],
             "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "setDefaultEventParameters",
-            "printedName": "setDefaultEventParameters()",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:8GamesLib14TealiumTrackerC25setDefaultEventParametersyyFZ",
-            "mangledName": "$s8GamesLib14TealiumTrackerC25setDefaultEventParametersyyFZ",
-            "moduleName": "GamesLib",
-            "static": true,
-            "declAttributes": [
-              "Final",
-              "AccessControl",
-              "RawDocComment"
-            ],
-            "funcSelfKind": "NonMutating"
           }
         ],
         "declKind": "Class",
@@ -20348,70 +20424,7 @@
             "static": true,
             "declAttributes": [
               "Final",
-              "AccessControl",
-              "RawDocComment"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "printConsentStatus",
-            "printedName": "printConsentStatus()",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:8GamesLib13TealiumHelperC18printConsentStatusyyF",
-            "mangledName": "$s8GamesLib13TealiumHelperC18printConsentStatusyyF",
-            "moduleName": "GamesLib",
-            "declAttributes": [
               "AccessControl"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "updateConsentPreferences",
-            "printedName": "updateConsentPreferences(_:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Dictionary",
-                "printedName": "[Swift.String : Any]",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "ProtocolComposition",
-                    "printedName": "Any"
-                  }
-                ],
-                "usr": "s:SD"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:8GamesLib13TealiumHelperC24updateConsentPreferencesyySDySSypGFZ",
-            "mangledName": "$s8GamesLib13TealiumHelperC24updateConsentPreferencesyySDySSypGFZ",
-            "moduleName": "GamesLib",
-            "static": true,
-            "declAttributes": [
-              "Final",
-              "AccessControl",
-              "RawDocComment"
             ],
             "funcSelfKind": "NonMutating"
           }
@@ -20800,13 +20813,6 @@
             "mangledName": "$ss9EscapableP"
           }
         ]
-      },
-      {
-        "kind": "Import",
-        "name": "FirebaseCrashlytics",
-        "printedName": "FirebaseCrashlytics",
-        "declKind": "Import",
-        "moduleName": "GamesLib"
       },
       {
         "kind": "Import",
@@ -62280,44 +62286,37 @@
     {
       "filePath": "\/var\/folders\/5y\/wk5zybnd0xg4j2wnh01dzs_40000gn\/T\/GamesLib\/Sources\/GamesLibCore\/Native\/TealiumTracking\/TealiumTracker.swift",
       "kind": "StringLiteral",
-      "offset": 16965,
-      "length": 17,
-      "value": "\"TEALIUM_ACCOUNT\""
-    },
-    {
-      "filePath": "\/var\/folders\/5y\/wk5zybnd0xg4j2wnh01dzs_40000gn\/T\/GamesLib\/Sources\/GamesLibCore\/Native\/TealiumTracking\/TealiumTracker.swift",
-      "kind": "StringLiteral",
-      "offset": 16998,
+      "offset": 21837,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/var\/folders\/5y\/wk5zybnd0xg4j2wnh01dzs_40000gn\/T\/GamesLib\/Sources\/GamesLibCore\/Native\/TealiumTracking\/TealiumTracker.swift",
       "kind": "StringLiteral",
-      "offset": 17087,
-      "length": 17,
-      "value": "\"TEALIUM_PROFILE\""
+      "offset": 21896,
+      "length": 7,
+      "value": "\"Click\""
     },
     {
       "filePath": "\/var\/folders\/5y\/wk5zybnd0xg4j2wnh01dzs_40000gn\/T\/GamesLib\/Sources\/GamesLibCore\/Native\/TealiumTracking\/TealiumTracker.swift",
       "kind": "StringLiteral",
-      "offset": 17120,
-      "length": 2,
-      "value": "\"\""
+      "offset": 21921,
+      "length": 11,
+      "value": "\"gaminghub\""
     },
     {
       "filePath": "\/var\/folders\/5y\/wk5zybnd0xg4j2wnh01dzs_40000gn\/T\/GamesLib\/Sources\/GamesLibCore\/Native\/TealiumTracking\/TealiumTracker.swift",
       "kind": "StringLiteral",
-      "offset": 17213,
-      "length": 21,
-      "value": "\"TEALIUM_ENVIRONMENT\""
+      "offset": 23978,
+      "length": 11,
+      "value": "\"gaminghub\""
     },
     {
       "filePath": "\/var\/folders\/5y\/wk5zybnd0xg4j2wnh01dzs_40000gn\/T\/GamesLib\/Sources\/GamesLibCore\/Native\/TealiumTracking\/TealiumTracker.swift",
       "kind": "StringLiteral",
-      "offset": 17250,
-      "length": 2,
-      "value": "\"\""
+      "offset": 24010,
+      "length": 11,
+      "value": "\"gaminghub\""
     },
     {
       "filePath": "\/var\/folders\/5y\/wk5zybnd0xg4j2wnh01dzs_40000gn\/T\/GamesLib\/Sources\/GamesLibCore\/Native\/extensions\/GamingHubCards\/GameLogger.swift",

@@ -8,7 +8,6 @@ import Auth0
 import Combine
 import ConsentViewController
 import DeveloperToolsSupport
-import FirebaseCrashlytics
 import Foundation
 import Foundation/*.Bundle*/
 import Foundation/*.ProcessInfo*/
@@ -17,11 +16,6 @@ import Kingfisher
 import Swift
 import SwiftUI
 import SwiftyJSON
-import TealiumAttribution
-import TealiumCollect
-import TealiumCore
-import TealiumLifecycle
-import TealiumTagManagement
 import UIKit
 import WebKit
 import _Concurrency
@@ -561,20 +555,20 @@ public struct JSONAS {
   public static func flushImpressions()
   public static func trackScreen(name: Swift.String, parameters: [Swift.String : Any]? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
   public static func trackEvent(name: Swift.String, parameters: [Swift.String : Any]? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
+  public static func trackClick(action: Swift.String, screen: Swift.String = "", name: Swift.String = GH_ACTION_TRACK_EVENT, category: Swift.String = "Click", label: Swift.String = "gaminghub")
   public static func trackProductImpression(id: Swift.String, name: Swift.String, category: Swift.String, variant: Swift.String?, list: Swift.String, brand: Swift.String, index: Swift.Int, category2: Swift.String? = nil, category3: Swift.String? = nil, category4: Swift.String? = nil, category5: Swift.String? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
   public static func trackProductClick(id: Swift.String, name: Swift.String, category: Swift.String, variant: Swift.String?, list: Swift.String, brand: Swift.String, index: Swift.Int, category2: Swift.String? = nil, category3: Swift.String? = nil, category4: Swift.String? = nil, category5: Swift.String? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
+  public static func track(page: Swift.String, subType: Swift.String, type: Swift.String, section3: Swift.String, section2: Swift.String = "gaminghub", section1: Swift.String = "gaminghub")
   public static func initilizeUserProperties()
   public static func setUserProperty(_ value: Swift.String?, forName key: Swift.String)
   public static func updatePushNotificationsUserProperty(value: Swift.String? = nil)
+  public static func setDefaultParameters()
   public static func trackSponsor(name: Swift.String, creativeName: Swift.String? = nil, slot: Swift.String? = nil, id: Swift.String? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
   public static func trackSponsorClick(name: Swift.String, creativeName: Swift.String? = nil, slot: Swift.String? = nil, id: Swift.String? = nil, domain: Swift.AnyHashable? = nil, gameId: Swift.String? = nil)
-  public static func setDefaultEventParameters()
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class TealiumHelper {
   public static func start()
-  public func printConsentStatus()
-  public static func updateConsentPreferences(_ dict: [Swift.String : Any])
   @objc deinit
 }
 public protocol MappedTrackerProtocol {
