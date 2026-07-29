@@ -1,13 +1,14 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 6.3.2 effective-5.10 (swiftlang-6.3.2.1.108 clang-2100.1.1.101)
+// swift-compiler-version: Apple Swift version 6.3.3 effective-5.10 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)
 // swift-module-flags: -target x86_64-apple-ios17.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -O -enable-experimental-feature DebugDescriptionMacro -module-name GamesLib -package-name gameslib
-// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.3.2
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.3.3
 import Alamofire
 import AppTrackingTransparency
 import Auth0
 import Combine
 import ConsentViewController
 import DeveloperToolsSupport
+import FirebaseCrashlytics
 import Foundation
 import Foundation/*.Bundle*/
 import Foundation/*.ProcessInfo*/
@@ -27,13 +28,12 @@ import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
 import _WebKit_SwiftUI
-@_Concurrency.MainActor @preconcurrency public struct GHBannerView : SwiftUI.UIViewRepresentable {
-  @_Concurrency.MainActor @preconcurrency public func makeUIView(context: GamesLib.GHBannerView.Context) -> UIKit.UIView
-  @_Concurrency.MainActor @preconcurrency public func updateUIView(_ uiView: UIKit.UIView, context: GamesLib.GHBannerView.Context)
+@_Concurrency.MainActor @preconcurrency public struct GHBannerView : SwiftUICore.View {
+  @_Concurrency.MainActor @preconcurrency public var body: some SwiftUICore.View {
+    get
+  }
   @_Concurrency.MainActor @preconcurrency public init(_ adSize: GamesLib.AdSize = AdSizeBanner, viewController: UIKit.UIViewController? = nil, bannerId: Swift.String? = nil, data: [Swift.String : Any]? = nil, targetingPrefix: Swift.String = "targeting_", onLoaded: (((any Swift.Error)?, Swift.String) -> Swift.Void)? = nil)
-  public typealias Body = Swift.Never
-  public typealias Coordinator = Swift.Void
-  public typealias UIViewType = UIKit.UIView
+  public typealias Body = @_opaqueReturnTypeOf("$s8GamesLib12GHBannerViewV4bodyQrvp", 0) __
 }
 extension GamesLib.AdSize {
   public static func ghBannerSize(width: Swift.Int?, height: Swift.Int?) -> GamesLib.AdSize
@@ -58,8 +58,9 @@ public let AdSizeBanner: GamesLib.AdSize
   @_Concurrency.MainActor @preconcurrency public func makeCoordinator() -> GamesLib.HTMLWebView.Coordinator
   @_Concurrency.MainActor @preconcurrency public func makeUIView(context: GamesLib.HTMLWebView.Context) -> WebKit.WKWebView
   @_Concurrency.MainActor @preconcurrency public func updateUIView(_ webView: WebKit.WKWebView, context: GamesLib.HTMLWebView.Context)
-  @objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor @preconcurrency final public class Coordinator : ObjectiveC.NSObject, WebKit.WKScriptMessageHandler {
+  @objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor @preconcurrency final public class Coordinator : ObjectiveC.NSObject, WebKit.WKScriptMessageHandler, WebKit.WKNavigationDelegate {
     @_Concurrency.MainActor @preconcurrency @objc final public func userContentController(_ userContentController: WebKit.WKUserContentController, didReceive message: WebKit.WKScriptMessage)
+    @_Concurrency.MainActor @preconcurrency @objc final public func webView(_ webView: WebKit.WKWebView, decidePolicyFor navigationAction: WebKit.WKNavigationAction, decisionHandler: @escaping (WebKit.WKNavigationActionPolicy) -> Swift.Void)
     @objc deinit
   }
   public typealias Body = Swift.Never
@@ -316,6 +317,7 @@ public protocol ConsentManagerProtocol {
   func checkAndOpen(in viewController: UIKit.UIViewController, onConsentCompleted: (() -> Swift.Void)?)
 }
 @objc @_inheritsConvenienceInitializers final public class SourcePointCM : ObjectiveC.NSObject, GamesLib.ConsentManagerProtocol {
+  public static var thirdPartyDelegate: (any GamesLib.ThirdPartyTrackingConsentProtocol)?
   public enum Constants {
     public static let accountIDKey: Swift.String
     public static let propertyIDKey: Swift.String
@@ -342,6 +344,9 @@ extension GamesLib.SourcePointCM : ConsentViewController.SPDelegate {
   @objc final public func onSPFinished(userData: ConsentViewController.SPUserData)
   @objc final public func onMessageInactivityTimeout()
   @objc final public func onError(error: ConsentViewController.SPError)
+}
+public protocol ThirdPartyTrackingConsentProtocol {
+  func onThirdPartyTrackingConsentChanged(granted: Swift.Bool)
 }
 @_hasMissingDesignatedInitializers public class G4FirebaseTracker {
   public static var inspector: (any GamesLib.AnalyticsInspectorProtocol)?
@@ -453,7 +458,7 @@ extension GamesLib.TrackingParameters : Swift.Equatable {
   @_Concurrency.MainActor @preconcurrency public var body: some SwiftUICore.View {
     get
   }
-  @_Concurrency.MainActor @preconcurrency public init(url: Swift.String? = nil, competitionId: Swift.Int = 1)
+  @_Concurrency.MainActor @preconcurrency public init(url: Swift.String? = nil, competitionId: Swift.Int = 1, extraParams: [Swift.String : Any]? = nil)
   public typealias Body = @_opaqueReturnTypeOf("$s8GamesLib33GamingEditorialArticlesListScreenV4bodyQrvp", 0) __
 }
 extension GamesLib.GamingEditorialArticlesListScreen {
@@ -463,7 +468,7 @@ extension GamesLib.GamingEditorialArticlesListScreen {
   @_Concurrency.MainActor @preconcurrency public var body: some SwiftUICore.View {
     get
   }
-  @_Concurrency.MainActor @preconcurrency public init(url: Swift.String? = nil, horizontal: Swift.Bool = true, competition: GamesLib.GamingHubCompetitions = .main)
+  @_Concurrency.MainActor @preconcurrency public init(url: Swift.String? = nil, horizontal: Swift.Bool = true, competition: GamesLib.GamingHubCompetitions = .main, extraParams: [Swift.String : Any]? = nil)
   public typealias Body = @_opaqueReturnTypeOf("$s8GamesLib23GamingEditorialCarouselV4bodyQrvp", 0) __
 }
 extension GamesLib.GamingEditorialCarousel {
@@ -571,6 +576,13 @@ public struct JSONAS {
   public func printConsentStatus()
   public static func updateConsentPreferences(_ dict: [Swift.String : Any])
   @objc deinit
+}
+public protocol MappedTrackerProtocol {
+  func setup()
+  func trackEvent(name: Swift.String, parameters: [Swift.String : Any]?)
+}
+extension GamesLib.GamingHubCards {
+  public static var mappedTracker: (any GamesLib.MappedTrackerProtocol)?
 }
 @_hasMissingDesignatedInitializers public class GameLogger {
   public static func print(_ items: Any..., domain: Swift.String)
@@ -946,6 +958,8 @@ public enum ImageKey : Swift.String, Swift.CaseIterable {
   case largeCardUnlockBackground
   case ribon
   case badgesCardNewUserBG
+  case navigationLogo
+  case gameCardBackground
   public init?(rawValue: Swift.String)
   public typealias AllCases = [GamesLib.ImageKey]
   public typealias RawValue = Swift.String
@@ -1040,7 +1054,7 @@ open class CodableCallManager<Payload> : Foundation.ObservableObject where Paylo
   @objc deinit
 }
 @objc public enum GamingHubCompetitions : Swift.Int, Swift.CaseIterable {
-  case main = 72
+  case main = 8
   public var brand: Swift.String {
     get
   }
