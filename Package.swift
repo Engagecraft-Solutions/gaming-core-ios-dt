@@ -15,7 +15,6 @@ let package = Package(
         .package(url: "https://github.com/onevcat/Kingfisher", from: "7.11.0"),
         .package(url: "https://github.com/auth0/Auth0.swift", from: "2.18.0"),
         .package(url: "https://github.com/SourcePointUSA/ios-cmp-app",from: "7.12.2"),
-        .package(url: "https://github.com/tealium/tealium-swift", from: "2.18.3"),
     ],
     targets: [
         .target( 
@@ -27,13 +26,6 @@ let package = Package(
                   .product(name: "Kingfisher", package: "Kingfisher"),
                   .product(name: "Auth0", package: "Auth0.swift"),
                   .product(name: "ConsentViewController", package: "ios-cmp-app"),
-                  .product(name: "TealiumAutotracking", package: "tealium-swift"), // DT
-                .product(name: "TealiumCore", package: "tealium-swift"), // DT
-                .product(name: "TealiumLifecycle", package: "tealium-swift"), // DT
-                .product(name: "TealiumAttribution", package: "tealium-swift"), // DT
-                .product(name: "TealiumCollect", package: "tealium-swift"),
-                .product(name: "TealiumRemoteCommands", package: "tealium-swift"), // DT
-                .product(name: "TealiumTagManagement", package: "tealium-swift"), // DT
             ],
         ),   
         .binaryTarget(
